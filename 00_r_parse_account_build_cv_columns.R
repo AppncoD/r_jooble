@@ -26,3 +26,20 @@ con <- file("C:/Users/dap/Desktop/R Git/r_jooble/tx.txt",blocking = FALSE)
 json_data <- fromJSON(con, simplifyDataFrame = TRUE, flatten = TRUE)
 
 summary(json_data)
+
+# Считаю максимальный размер поля О себе
+skills <- json_data$skills
+skills <- compact(skills)
+n_row = NROW(skills)
+o_sebe <- character(n_row)
+o_sebe_len <- integer(n_row)
+o_sebe_df <- data.frame(name = o_sebe, length =o_sebe_len)
+for (i in 1:n_row){
+  o_sebe[i] <- skills[[i]][["value"]]
+  o_sebe_len[i] <- nchar(o_sebe[i])
+}
+max(o_sebe_len)
+install.packages("xlsx")
+library("xlsx")
+write.xlsx(o_sebe_df, "C:/Users/dap/Desktop/R Git/r_jooble/o sebe.xlsx", sheetName = "data", 
+           col.names = TRUE, row.names = TRUE, append = FALSE)
