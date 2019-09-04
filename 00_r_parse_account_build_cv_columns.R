@@ -8,6 +8,7 @@ library(dplyr)
 library(readr)
 library(purrr)
 library(jsonlite)
+library(rlist)
 #library(reshape2)
 
 credentials <- read.table("credentials.csv", header = TRUE, sep = ",", stringsAsFactors = !default.stringsAsFactors())
@@ -43,3 +44,21 @@ install.packages("xlsx")
 library("xlsx")
 write.xlsx(o_sebe_df, "C:/Users/dap/Desktop/R Git/r_jooble/o sebe.xlsx", sheetName = "data", 
            col.names = TRUE, row.names = TRUE, append = FALSE)
+
+# Анализирую кейсы 2 образования: школа и универ или универ и универ?
+education <- json_data$education
+education <- compact(education)
+
+degree_name_2edu <- data.frame(degree1 = character(), degree2 = character(), name1 = character(), name2 = character())
+n_row = NROW(education)
+for (i in 1:n_row) { 
+  if_i = dim(education[[i]])[1]
+  if_i[is.null(if_i)] <- 0
+  if(if_i == 2) { degree_name_2edu <-  
+                  rbind(degree_name_2edu,
+                        c(education[[i]][["degree"]][1], education[[i]][["degree"]][2], education[[i]][["name"]][1], education[[i]][["name"]][2]))
+    }
+}
+names(degree_name_2edu)<-c("degree1","degree2","name1","name2")
+
+
