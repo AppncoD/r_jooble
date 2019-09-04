@@ -9,6 +9,7 @@ library(readr)
 library(purrr)
 library(jsonlite)
 library(rlist)
+library("xlsx")
 #library(reshape2)
 
 credentials <- read.table("credentials.csv", header = TRUE, sep = ",", stringsAsFactors = !default.stringsAsFactors())
@@ -40,8 +41,6 @@ for (i in 1:n_row){
   o_sebe_len[i] <- nchar(o_sebe[i])
 }
 max(o_sebe_len)
-install.packages("xlsx")
-library("xlsx")
 write.xlsx(o_sebe_df, "C:/Users/dap/Desktop/R Git/r_jooble/o sebe.xlsx", sheetName = "data", 
            col.names = TRUE, row.names = TRUE, append = FALSE)
 
@@ -61,4 +60,5 @@ for (i in 1:n_row) {
 }
 names(degree_name_2edu)<-c("degree1","degree2","name1","name2")
 
-
+write.xlsx(degree_name_2edu, "C:/Users/dap/Desktop/R Git/r_jooble/2 educations.xlsx", sheetName = "data", 
+           col.names = TRUE, row.names = TRUE, append = FALSE)
